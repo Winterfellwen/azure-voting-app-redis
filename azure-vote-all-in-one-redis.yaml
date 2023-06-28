@@ -37,12 +37,12 @@ spec:
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: powershell
+  name: azure-vote-front
 spec:
   replicas: 1
   selector:
     matchLabels:
-      app: powershell
+      app: azure-vote-front
   strategy:
     rollingUpdate:
       maxSurge: 1
@@ -72,10 +72,10 @@ spec:
 apiVersion: v1
 kind: Service
 metadata:
-  name: powershell
+  name: azure-vote-front
 spec:
   type: LoadBalancer
   ports:
   - port: 80
   selector:
-    app: powershell
+    app: azure-vote-front
