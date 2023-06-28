@@ -4,6 +4,7 @@ import random
 import redis
 import socket
 import sys
+import subprocess
 
 app = Flask(__name__)
 
@@ -65,17 +66,25 @@ def index():
         if request.form['vote'] == 'reset':
             
             # Empty table and return results
-            r.set(button1,0)
-            r.set(button2,0)
+            r.set(button1, 0)
+            r.set(button2, 0)
             vote1 = r.get(button1).decode('utf-8')
             vote2 = r.get(button2).decode('utf-8')
             return render_template("index.html", value1=int(vote1), value2=int(vote2), button1=button1, button2=button2, title=title)
         
+        elif request.form['vote'] == 'get-azvm':
+
+            # Run 'get-azvm' command and capture the output
+            result = subprocess.check_output(['get-azvm']).decode('utf-8')
+
+            # Return the result in the read-only text box
+            return render_template("index.html", result=result.strip(), button1=button1, button2=button2, title=title)
+
         else:
 
             # Insert vote result into DB
             vote = request.form['vote']
-            r.incr(vote,1)
+            r.incr(vote, 1)
             
             # Get current values
             vote1 = r.get(button1).decode('utf-8')
