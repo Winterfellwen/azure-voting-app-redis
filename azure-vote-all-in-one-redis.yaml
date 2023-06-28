@@ -37,12 +37,12 @@ spec:
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: azure-vote-front
+  name: powershell
 spec:
   replicas: 1
   selector:
     matchLabels:
-      app: azure-vote-front
+      app: powershell
   strategy:
     rollingUpdate:
       maxSurge: 1
@@ -57,7 +57,7 @@ spec:
         "beta.kubernetes.io/os": linux
       containers:
       - name: azure-vote-front
-        image: peterdevopscr.azurecr.io/azure-vote-front:v1
+        image: peterdevopscr.azurecr.io/powershell:v1
         ports:
         - containerPort: 80
         resources:
@@ -72,10 +72,10 @@ spec:
 apiVersion: v1
 kind: Service
 metadata:
-  name: azure-vote-front
+  name: powershell
 spec:
   type: LoadBalancer
   ports:
   - port: 80
   selector:
-    app: azure-vote-front
+    app: powershell
